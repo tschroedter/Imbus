@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <Authors>Thomas Schroedter</Authors>
+    <Company>Thomas Schroedter</Company>
+    <Description>A simple in memory IBus using .Net Core 2.0a</Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseUrl>https://github.com/tschroedter/csharp_examples/blob/master/LICENSE</PackageLicenseUrl>
+    <Copyright>Thomas Schroedter</Copyright>
+    <RepositoryUrl>https://github.com/tschroedter/csharp_examples</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="JetBrains.Annotations" Version="10.4.0" />
+  </ItemGroup>
+
+</Project>

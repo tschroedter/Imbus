@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <Authors>Thomas Schroedter</Authors>
+    <Company>Thomas Schroedter</Company>
+    <Description>Add-on fo Imbus.Core, it contains a AutoFac module to register Imbus.Core classes.</Description>
+    <PackageLicenseUrl>https://github.com/tschroedter/csharp_examples/blob/master/LICENSE</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/tschroedter/csharp_examples</RepositoryUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Imbus.Core\Imbus.Core.csproj" />
+  </ItemGroup>
+
+</Project>

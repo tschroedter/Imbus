@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.6.0" />
+    <PackageReference Include="JetBrains.Annotations" Version="10.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NCQRS.Common.Interfaces\NCQRS.Common.Interfaces.csproj" />
+    <ProjectReference Include="..\NCQRS.Core.MessageBus.Interfaces\NCQRS.Core.MessageBus.Interfaces.csproj" />
+  </ItemGroup>
+
+</Project>
