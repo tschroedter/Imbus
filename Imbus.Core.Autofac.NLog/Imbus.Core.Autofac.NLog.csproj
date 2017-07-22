@@ -2,18 +2,18 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <Authors>Thomas Schroedter</Authors>
-    <Company>Thomas Schroedter</Company>
-    <Description>A simple in memory IBus using .Net Core 2.0a</Description>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Description>Add support for basic logger.</Description>
     <PackageLicenseUrl>https://github.com/tschroedter/csharp_examples/blob/master/LICENSE</PackageLicenseUrl>
     <Copyright>Thomas Schroedter</Copyright>
     <RepositoryUrl>https://github.com/tschroedter/csharp_examples</RepositoryUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.6.0" />
     <PackageReference Include="JetBrains.Annotations" Version="11.0.0" />
+    <PackageReference Include="NLog" Version="5.0.0-beta09" />
   </ItemGroup>
 
 </Project>

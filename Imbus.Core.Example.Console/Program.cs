@@ -1,11 +1,10 @@
 ﻿using System;
 using Autofac;
 using Autofac.Core;
-using Autofac.Extras.NLog;
 using Imbus.Core.Autofac;
+using Imbus.Core.Autofac.NLog;
+using Imbus.Core.Autofac.NLog.Interfaces;
 using Imbus.Core.Example.Autofac;
-using Imbus.Core.Example.Handlers;
-using Imbus.Core.Example.Interfaces;
 using Imbus.Core.Example.Interfaces.Buses;
 using Imbus.Core.Interfaces;
 using JetBrains.Annotations;
@@ -16,10 +15,7 @@ namespace Imbus.Core.Example.Console
     public static class Program
     {
         private static readonly int NumberOfHandlers = 10;
-        private static readonly int NumberOfMessages = 1000;
-
-        [UsedImplicitly]
-        private static TestMessageHandler[] s_Handlers;
+        private static readonly int NumberOfMessages = 20;
 
         private static MessageBusTester s_TesterOne;
         private static MessageBusTester s_TesterTwo;
@@ -29,6 +25,7 @@ namespace Imbus.Core.Example.Console
             IContainer container = CreateContainer();
 
             var logger = container.Resolve <IImbusLogger>();
+            logger.Debug("Starting tests...");
 
             try
             {

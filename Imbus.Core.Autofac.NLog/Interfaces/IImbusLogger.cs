@@ -1,16 +1,15 @@
-﻿using System;
+using System;
 using JetBrains.Annotations;
 
-namespace Imbus.Core.Example.Interfaces
+// ReSharper disable UnusedMember.Global
+
+namespace Imbus.Core.Autofac.NLog.Interfaces
 {
+    // INFO: ADAPTED FROM NLOG:INTERFACE Project https://github.com/uhaciogullari/NLog.Interface
     public interface IImbusLogger
     {
-        // ReSharper disable UnusedMember.Global
         void Debug([NotNull] string format,
                    [NotNull] params object[] args);
-
-        void Info([NotNull] string format,
-                  [NotNull] params object[] args);
 
         void Error([NotNull] string format,
                    [NotNull] params object[] args);
@@ -20,6 +19,8 @@ namespace Imbus.Core.Example.Interfaces
         void Error(Exception exception,
                    string format,
                    params object[] args);
-        // ReSharper restore UnusedMember.Global
+
+        void Info([NotNull] string format,
+                  [NotNull] params object[] args);
     }
 }

@@ -2,11 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <Authors>Thomas Schroedter</Authors>
-    <Company>Thomas Schroedter</Company>
-    <Description>NUnit tests for Imbus.Core classes</Description>
-    <RepositoryUrl>https://github.com/tschroedter/csharp_examples</RepositoryUrl>
-    <PackageLicenseUrl>https://github.com/tschroedter/csharp_examples/blob/master/LICENSE</PackageLicenseUrl>
+
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Imbus.Core\Imbus.Core.csproj" />
+    <ProjectReference Include="..\Imbus.Core.Autofac.NLog\Imbus.Core.Autofac.NLog.csproj" />
   </ItemGroup>
 
 </Project>

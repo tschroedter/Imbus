@@ -1,15 +1,14 @@
 using System;
-using Autofac.Extras.NLog;
-using Imbus.Core.Example.Interfaces;
-using JetBrains.Annotations;
+using Imbus.Core.Autofac.NLog.Interfaces;
+using NLog;
 
-namespace Imbus.Core.Example
+namespace Imbus.Core.Autofac.NLog
 {
-    [UsedImplicitly]
-    public class ImbusLogger
+    //INFO: ADAPTED FROM NLOG:INTERFACE Project https://github.com/uhaciogullari/NLog.Interface
+    public class ImbusLoggerAdapter
         : IImbusLogger
     {
-        public ImbusLogger([NotNull] ILogger logger)
+        public ImbusLoggerAdapter(ILogger logger)
         {
             m_Logger = logger;
         }
@@ -46,9 +45,9 @@ namespace Imbus.Core.Example
                           string format,
                           params object[] args)
         {
-            m_Logger.Error(format,
-                           args,
-                           exception);
+            m_Logger.Error(exception,
+                           format,
+                           args);
         }
     }
 }

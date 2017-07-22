@@ -9,6 +9,7 @@
     <RepositoryUrl>https://github.com/tschroedter/csharp_examples</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Copyright>Thomas Schroedter</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
