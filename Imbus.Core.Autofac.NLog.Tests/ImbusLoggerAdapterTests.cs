@@ -54,13 +54,13 @@ namespace Imbus.Core.Autofac.NLog.Tests
         public void Error_Calls_Error_For_Exception()
         {
             // Arrange
-            var exception = new ArgumentException("Text");
+            var exception = new ArgumentException();
 
             // Act
             m_Sut.Error(exception);
 
             // Assert
-            m_MockLogger.Verify(m => m.Error(exception),
+            m_MockLogger.Verify(m => m.Error<Exception>(exception),
                                 Times.Once);
         }
 
@@ -68,7 +68,7 @@ namespace Imbus.Core.Autofac.NLog.Tests
         public void Error_Calls_Error_For_Exception_And_String()
         {
             // Arrange
-            var exception = new ArgumentException("Text");
+            var exception = new ArgumentException();
 
             // Act
             m_Sut.Error(exception,
