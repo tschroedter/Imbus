@@ -1,15 +1,13 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
-using NUnit.Framework;
+using Xunit;
 
 namespace Imbus.Core.Tests
 {
-    [TestFixture]
     [ExcludeFromCodeCoverage]
-    internal sealed class BaseMessageHandlerTests
+    public class BaseMessageHandlerTests
     {
-        [SetUp]
-        public void Setup()
+        public BaseMessageHandlerTests()
         {
             m_Sut = new TestMessageHandler("Id");
         }
@@ -19,7 +17,7 @@ namespace Imbus.Core.Tests
         }
 
         private class TestMessageHandler
-            : BaseMessageHandler <TestMessage>
+            : BaseMessageHandler<TestMessage>
         {
             public TestMessageHandler([NotNull] string subscriperId)
                 : base(subscriperId)
@@ -36,17 +34,17 @@ namespace Imbus.Core.Tests
 
         private TestMessageHandler m_Sut;
 
-        [Test]
+        [Fact]
         public void Constructor_Sets_SubscriptionId()
         {
             // Arrange
             // Act
             // Assert
-            Assert.AreEqual("Id",
-                            m_Sut.SubscriptionId);
+            Assert.Equal("Ida",
+                         m_Sut.SubscriptionId);
         }
 
-        [Test]
+        [Fact]
         public void Handle_Calls_HandleMessage()
         {
             // Arrange
