@@ -34,7 +34,7 @@ namespace Imbus.Core.Example.Handlers
             get
             {
                 return m_ExpectedNumberOfCalls == Counter &&
-                       !m_ReceivedCalls.Any(x => x == false);
+                       m_ReceivedCalls.All(x => x);
             }
         }
 

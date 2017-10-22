@@ -2,9 +2,10 @@ using System;
 using Imbus.Core.Autofac.NLog.Interfaces;
 using NLog;
 
+// ReSharper disable UnusedMember.Global
+
 namespace Imbus.Core.Autofac.NLog
 {
-    //INFO: ADAPTED FROM NLOG:INTERFACE Project https://github.com/uhaciogullari/NLog.Interface
     public class ImbusLoggerAdapter
         : IImbusLogger
     {
@@ -45,7 +46,6 @@ namespace Imbus.Core.Autofac.NLog
                            args);
         }
 
-        // ReSharper disable once UnusedMember.Global
         public void Error(Exception exception)
         {
             m_Logger.Error(exception);

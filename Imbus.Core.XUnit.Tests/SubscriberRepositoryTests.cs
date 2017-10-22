@@ -33,8 +33,10 @@ namespace Imbus.Core.XUnit.Tests
             string[] actual = m_Sut.GetSubscriptionIdsForMessage <TestMessage>()
                                    .ToArray();
 
-            Assert.True(actual.Contains("SubscriptionId 1"));
-            Assert.True(actual.Contains("SubscriptionId 2"));
+            Assert.True(Contains(actual,
+                                 "SubscriptionId 1"));
+            Assert.True(Contains(actual,
+                                 "SubscriptionId 2"));
         }
 
         [Fact]
@@ -48,7 +50,8 @@ namespace Imbus.Core.XUnit.Tests
             // Assert
             IEnumerable <string> actual = m_Sut.GetSubscriptionIdsForMessage <TestMessage>();
 
-            Assert.True(actual.Contains("SubscriptionId"));
+            Assert.True(Contains(actual,
+                                 "SubscriptionId"));
         }
 
         [Fact]
@@ -62,7 +65,7 @@ namespace Imbus.Core.XUnit.Tests
                                           m_Handler.Handle);
 
             // Assert
-            Assert.True(m_Sut.Messages.Contains(typeof( TestMessage )));
+            Assert.NotNull(m_Sut.Messages.FirstOrDefault(x => x == typeof( TestMessage )));
         }
 
         [Fact]
@@ -74,7 +77,7 @@ namespace Imbus.Core.XUnit.Tests
                                           m_Handler.Handle);
 
             // Assert
-            Assert.True(m_Sut.Messages.Contains(typeof( TestMessage )));
+            Assert.NotNull(m_Sut.Messages.FirstOrDefault(x => x == typeof( TestMessage )));
         }
 
         [Fact]
@@ -90,7 +93,7 @@ namespace Imbus.Core.XUnit.Tests
                                           handlerOther.Handle);
 
             // Assert
-            Assert.True(m_Sut.Messages.Contains(typeof( TestMessage )));
+            Assert.NotNull(m_Sut.Messages.FirstOrDefault(x => x == typeof( TestMessage )));
         }
 
         [Fact]
@@ -101,8 +104,7 @@ namespace Imbus.Core.XUnit.Tests
             IEnumerable <ISubscriberInfo <TestMessage>> actual = m_Sut.Subscribers <TestMessage>();
 
             // Assert
-            Assert.Equal(0,
-                         actual.Count());
+            Assert.True(0 == actual.Count());
         }
 
         [Fact]
@@ -135,7 +137,8 @@ namespace Imbus.Core.XUnit.Tests
             // Assert
             IEnumerable <string> actual = m_Sut.GetSubscriptionIdsForMessage <TestMessage>();
 
-            Assert.True(actual.Contains("SubscriptionId"));
+            Assert.True(Contains(actual,
+                                 "SubscriptionId"));
         }
 
         [Fact]
@@ -151,7 +154,8 @@ namespace Imbus.Core.XUnit.Tests
             // Assert
             IEnumerable <string> actual = m_Sut.GetSubscriptionIdsForMessage <TestMessage>();
 
-            Assert.False(actual.Contains("SubscriptionId"));
+            Assert.False(Contains(actual,
+                                  "SubscriptionId"));
         }
 
         [Fact]
@@ -165,7 +169,13 @@ namespace Imbus.Core.XUnit.Tests
             m_Sut.Unsubscribe <TestMessage>("SubscriptionId");
 
             // Assert
-            Assert.False(m_Sut.Messages.Contains(typeof( TestMessage )));
+            Assert.Null(m_Sut.Messages.FirstOrDefault(x => x == typeof( TestMessage )));
+        }
+
+        private static bool Contains(IEnumerable <string> actual,
+                                     string text)
+        {
+            return actual.FirstOrDefault(x => x.CompareTo(text) == 0) != null;
         }
 
         private class TestActionHandler

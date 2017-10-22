@@ -20,9 +20,11 @@ namespace Imbus.Core
         }
 
         [NotNull]
-        public IMessageBus Bus { get; }
+        [UsedImplicitly]
+        protected IMessageBus Bus { get; }
 
         [NotNull]
+        [UsedImplicitly]
         public string SubscriptionId { get; }
 
         public void Handle(T message)
