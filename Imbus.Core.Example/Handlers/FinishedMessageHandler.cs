@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Imbus.Core.Example.Messages;
+using Imbus.Core.Interfaces;
 using JetBrains.Annotations;
 using static System.Console;
 
@@ -11,8 +12,9 @@ namespace Imbus.Core.Example.Handlers
     public class FinishedMessageHandler
         : BaseMessageHandler <FinishedMessage>
     {
-        public FinishedMessageHandler()
-            : base("FinishedHandler")
+        public FinishedMessageHandler([NotNull] IMessageBus bus)
+            : base(bus,
+                   "FinishedHandler")
         {
         }
 

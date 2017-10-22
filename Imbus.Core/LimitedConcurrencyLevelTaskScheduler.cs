@@ -7,16 +7,17 @@ using System.Threading.Tasks;
 namespace Imbus.Core
 {
     [ExcludeFromCodeCoverage]
-    public class LimitedConcurrencyLevelTaskScheduler
-        : TaskScheduler // todo interface
+    // https://msdn.microsoft.com/en-us/library/ee789351
+    // Provides a task scheduler that ensures a maximum concurrency level while  
+    // running on top of the thread pool. 
+    public class LimitedConcurrencyLevelTaskScheduler : TaskScheduler
     {
         // Creates a new instance with the specified degree of parallelism.  
         public LimitedConcurrencyLevelTaskScheduler(int maxDegreeOfParallelism)
         {
             if ( maxDegreeOfParallelism < 1 )
             {
-                // ReSharper disable once UseNameofExpression
-                throw new ArgumentOutOfRangeException("maxDegreeOfParallelism");
+                throw new ArgumentOutOfRangeException(nameof(maxDegreeOfParallelism));
             }
             m_MaxDegreeOfParallelism = maxDegreeOfParallelism;
         }

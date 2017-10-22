@@ -4,19 +4,19 @@ using JetBrains.Annotations;
 namespace Imbus.Core
 {
     [UsedImplicitly]
-    public abstract class BaseMessageHandler <T>
-        : IMessageHandler <T>
+    public abstract class BaseMessageHandlerAsync <T>
+        : IMessageHandlerAsync <T>
         where T : class
     {
-        protected BaseMessageHandler(
+        protected BaseMessageHandlerAsync(
             [NotNull] IMessageBus bus,
             [NotNull] string subscriperId)
         {
             Bus = bus;
             SubscriptionId = subscriperId;
 
-            Bus.Subscribe <T>(SubscriptionId,
-                              Handle);
+            Bus.SubscribeAsync <T>(SubscriptionId,
+                                   Handle);
         }
 
         [NotNull]

@@ -1,11 +1,10 @@
-﻿using System;
+using System;
 using Imbus.Core.Interfaces;
 using JetBrains.Annotations;
 
 namespace Imbus.Core
 {
-    public class SubscriberInfo <TMessage>
-        : ISubscriberInfo <TMessage>
+    public class SubscriberInfo <TMessage> : ISubscriberInfo <TMessage>
     {
         public SubscriberInfo([NotNull] string subscriptionId,
                               Action <TMessage> handler)

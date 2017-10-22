@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Imbus.Core.Interfaces;
 using JetBrains.Annotations;
 
@@ -12,10 +12,8 @@ namespace Imbus.Core
 
         public object FindOrCreatePadlock(string subscriptionId)
         {
-            object padlock;
-
             if ( m_Padlocks.TryGetValue(subscriptionId,
-                                        out padlock) )
+                                        out object padlock) )
             {
                 return padlock;
             }
@@ -30,10 +28,8 @@ namespace Imbus.Core
 
         public object GetPadlock(string subscriptionId)
         {
-            object padlock;
-
             return m_Padlocks.TryGetValue(subscriptionId,
-                                          out padlock)
+                                          out object padlock)
                        ? padlock
                        : null;
         }

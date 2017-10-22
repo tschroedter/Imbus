@@ -6,37 +6,35 @@ using JetBrains.Annotations;
 namespace Imbus.Core
 {
     [UsedImplicitly]
-    public class SubscriberStore
-        : ISubscriberStore
+    public class SubscriberStore : ISubscriberStore
     {
-        public SubscriberStore([NotNull] Func <ISubscriberRepository> factory)
+        public SubscriberStore([NotNull] ISubscriberRepository syncSyncRepository,
+                               [NotNull] ISubscriberRepository asyncRepository)
         {
-            m_Repository = factory();
-            m_AsyncRepository = factory();
+            m_SyncRepository = syncSyncRepository;
+            m_AsyncRepository = asyncRepository;
         }
 
         private readonly ISubscriberRepository m_AsyncRepository;
-        private readonly ISubscriberRepository m_Repository;
+        private readonly ISubscriberRepository m_SyncRepository;
 
-        public void SubscribeAsync <TMessage>(
-            string subscriptionId,
-            Action <TMessage> handler)
+        public void SubscribeAsync <TMessage>(string subscriptionId,
+                                              Action <TMessage> handler)
         {
             m_AsyncRepository.Subscribe(subscriptionId,
                                         handler);
         }
 
-        public void Subscribe <TMessage>(
-            string subscriptionId,
-            Action <TMessage> handler)
+        public void Subscribe <TMessage>(string subscriptionId,
+                                         Action <TMessage> handler)
         {
-            m_Repository.Subscribe(subscriptionId,
-                                   handler);
+            m_SyncRepository.Subscribe(subscriptionId,
+                                       handler);
         }
 
         public void Unsubscribe <TMessage>(string subscriptionId)
         {
-            m_Repository.Unsubscribe <TMessage>(subscriptionId);
+            m_SyncRepository.Unsubscribe <TMessage>(subscriptionId);
         }
 
         public void UnsubscribeAsync <TMessage>(string subscriptionId)
@@ -44,12 +42,12 @@ namespace Imbus.Core
             m_AsyncRepository.Unsubscribe <TMessage>(subscriptionId);
         }
 
-        public IEnumerable <ISubscriberInfo <TMessage>> Subscribers <TMessage>()
+        public IEnumerable <SubscriberInfo <TMessage>> Subscribers <TMessage>()
         {
-            return m_Repository.Subscribers <TMessage>();
+            return m_SyncRepository.Subscribers <TMessage>();
         }
 
-        public IEnumerable <ISubscriberInfo <TMessage>> SubscribersAsync <TMessage>()
+        public IEnumerable <SubscriberInfo <TMessage>> SubscribersAsync <TMessage>()
         {
             return m_AsyncRepository.Subscribers <TMessage>();
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Autofac;
 using Autofac.Core;
 using Imbus.Core.Autofac.NLog.Interfaces;
 using JetBrains.Annotations;
@@ -20,6 +21,15 @@ namespace Imbus.Core.Autofac.NLog
             registration.Preparing += OnComponentPreparing;
             registration.Activated += (sender,
                                        e) => InjectLoggerProperties(e.Instance);
+        }
+
+        protected override void Load(
+            [NotNull] ContainerBuilder builder)
+        {
+            builder
+                .Register(context => new ImbusLoggerAdapter(LogManager.GetCurrentClassLogger()))
+                .As <IImbusLogger>()
+                .SingleInstance();
         }
 
         private static void InjectLoggerProperties(

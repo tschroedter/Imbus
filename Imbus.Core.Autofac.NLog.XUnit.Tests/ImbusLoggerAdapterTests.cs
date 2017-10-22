@@ -15,8 +15,8 @@ namespace Imbus.Core.Autofac.NLog.XUnit.Tests
             m_Sut = new ImbusLoggerAdapter(m_MockLogger.Object);
         }
 
-        private Mock <ILogger> m_MockLogger;
-        private ImbusLoggerAdapter m_Sut;
+        private readonly Mock <ILogger> m_MockLogger;
+        private readonly ImbusLoggerAdapter m_Sut;
 
         [Fact]
         public void Debug_Calls_Debug_For_String()
@@ -26,8 +26,7 @@ namespace Imbus.Core.Autofac.NLog.XUnit.Tests
             m_Sut.Debug("Text");
 
             // Assert
-            m_MockLogger.Verify(m => m.Debug("Text",
-                                             new object[0]),
+            m_MockLogger.Verify(m => m.Debug("Text"),
                                 Times.Once);
         }
 
@@ -58,7 +57,7 @@ namespace Imbus.Core.Autofac.NLog.XUnit.Tests
             m_Sut.Error(exception);
 
             // Assert
-            m_MockLogger.Verify(m => m.Error<Exception>(exception),
+            m_MockLogger.Verify(m => m.Error <Exception>(exception),
                                 Times.Once);
         }
 
@@ -75,7 +74,7 @@ namespace Imbus.Core.Autofac.NLog.XUnit.Tests
             // Assert
             m_MockLogger.Verify(m => m.Error(exception,
                                              "Text",
-                                             new object[0]),
+                                             It.IsAny <object[]>()),
                                 Times.Once);
         }
 
@@ -105,8 +104,7 @@ namespace Imbus.Core.Autofac.NLog.XUnit.Tests
             m_Sut.Error("Text");
 
             // Assert
-            m_MockLogger.Verify(m => m.Error("Text",
-                                             new object[0]),
+            m_MockLogger.Verify(m => m.Error("Text"),
                                 Times.Once);
         }
 
@@ -135,8 +133,7 @@ namespace Imbus.Core.Autofac.NLog.XUnit.Tests
             m_Sut.Info("Text");
 
             // Assert
-            m_MockLogger.Verify(m => m.Info("Text",
-                                            new object[0]),
+            m_MockLogger.Verify(m => m.Info("Text"),
                                 Times.Once);
         }
 

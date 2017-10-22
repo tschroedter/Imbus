@@ -18,9 +18,9 @@ namespace Imbus.Core.Example.Handlers
             [NotNull] string subscriperId,
             int expectedNumberOfCalls,
             bool expectedCallsInOrder)
-            : base(subscriperId)
+            : base(bus,
+                   subscriperId)
         {
-            m_Bus = bus;
             m_Logger = logger;
             m_ExpectedNumberOfCalls = expectedNumberOfCalls;
             m_ExpectedCallsInOrder = expectedCallsInOrder;
@@ -37,9 +37,6 @@ namespace Imbus.Core.Example.Handlers
                        !m_ReceivedCalls.Any(x => x == false);
             }
         }
-
-        [NotNull]
-        private readonly IMessageBus m_Bus;
 
         private readonly bool m_ExpectedCallsInOrder;
 
@@ -75,13 +72,13 @@ namespace Imbus.Core.Example.Handlers
 
             if ( IsValid )
             {
-                string busName = m_Bus.GetType().Name;
+                string busName = Bus.GetType().Name;
 
-                m_Bus.PublishAsync(new FinishedMessage
-                                   {
-                                       SubscriptionId = SubscriptionId,
-                                       BusName = busName
-                                   });
+                Bus.PublishAsync(new FinishedMessage
+                                 {
+                                     SubscriptionId = SubscriptionId,
+                                     BusName = busName
+                                 });
 
                 m_Logger.Debug($"[{busName}] {SubscriptionId}: {ReceivedCallsToString()}");
             }

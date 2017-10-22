@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using Imbus.Core.Interfaces;
+using JetBrains.Annotations;
 using Moq;
 using Xunit;
 
@@ -10,14 +11,14 @@ namespace Imbus.Core.XUnit.Tests
     {
         public InMemoryMessageBusTests()
         {
-            m_Message = new TestMessage();
-            m_Handler = new TestHandler();
-
             m_MockStore = new Mock <ISubscriberStore>();
             m_MockAggregator = new Mock <IMessageAggregator>();
 
             m_Sut = new InMemoryMessageBus(m_MockStore.Object,
                                            m_MockAggregator.Object);
+
+            m_Message = new TestMessage();
+            m_Handler = new TestHandler(m_Sut);
         }
 
         private readonly TestHandler m_Handler;
@@ -72,7 +73,8 @@ namespace Imbus.Core.XUnit.Tests
         {
             // Arrange
             // Act
-            m_Sut.Subscribe(m_Handler);
+            m_Sut.Subscribe <TestMessage>(m_Handler.SubscriptionId,
+                                          m_Handler.Handle);
 
             // Assert
             m_MockStore.Verify(m => m.Subscribe <TestMessage>(m_Handler.SubscriptionId,
@@ -99,7 +101,8 @@ namespace Imbus.Core.XUnit.Tests
         {
             // Arrange
             // Act
-            m_Sut.SubscribeAsync(m_Handler);
+            m_Sut.SubscribeAsync <TestMessage>(m_Handler.SubscriptionId,
+                                               m_Handler.Handle);
 
             // Assert
             m_MockStore.Verify(m => m.SubscribeAsync <TestMessage>(m_Handler.SubscriptionId,
@@ -108,14 +111,15 @@ namespace Imbus.Core.XUnit.Tests
         }
 
         public class TestHandler
-            : BaseMessageHandler <TestMessage>
         {
-            public TestHandler()
-                : base("SubscriperId")
+            public TestHandler([NotNull] IMessageBus bus)
             {
+                SubscriptionId = "SubscriperId";
             }
 
-            protected override void HandleMessage(TestMessage message)
+            public string SubscriptionId { get; }
+
+            public void Handle(TestMessage message)
             {
             }
         }

@@ -67,7 +67,6 @@ namespace Imbus.Core.Example.Console
             var builder = new ContainerBuilder();
 
             builder.RegisterModule <NLogModule>();
-            builder.RegisterModule <SimpleNLogModule>();
             builder.RegisterModule <ImbusCoreAutofacModule>();
             builder.RegisterModule <ImbusCoreExampleModule>();
 

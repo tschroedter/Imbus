@@ -1,16 +1,16 @@
-﻿using System;
+using System;
 using Imbus.Core.Interfaces;
 using JetBrains.Annotations;
+
+// ReSharper disable UnusedMember.Global
 
 namespace Imbus.Core
 {
     [UsedImplicitly]
-    public class InMemoryMessageBus
-        : IInMemoryMessageBus
+    public class InMemoryMessageBus : IInMemoryMessageBus
     {
-        public InMemoryMessageBus(
-            [NotNull] ISubscriberStore store,
-            [NotNull] IMessageAggregator aggregator)
+        public InMemoryMessageBus([NotNull] ISubscriberStore store,
+                                  [NotNull] IMessageAggregator aggregator)
         {
             m_Store = store;
             m_Aggregator = aggregator;
@@ -51,13 +51,6 @@ namespace Imbus.Core
             }
         }
 
-        public void Subscribe <T>(IMessageHandler <T> handler)
-            where T : class
-        {
-            Subscribe <T>(handler.SubscriptionId,
-                          handler.Handle);
-        }
-
         public void SubscribeAsync <T>(string subscriptionId,
                                        Action <T> handler)
             where T : class
@@ -67,6 +60,13 @@ namespace Imbus.Core
                 m_Store.SubscribeAsync(subscriptionId,
                                        handler);
             }
+        }
+
+        public void Subscribe <T>(IMessageHandler <T> handler)
+            where T : class
+        {
+            Subscribe <T>(handler.SubscriptionId,
+                          handler.Handle);
         }
 
         public void SubscribeAsync <T>(IMessageHandler <T> handler)

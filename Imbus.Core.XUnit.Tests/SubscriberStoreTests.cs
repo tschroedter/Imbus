@@ -9,18 +9,22 @@ namespace Imbus.Core.XUnit.Tests
     [ExcludeFromCodeCoverage]
     public sealed class SubscriberStoreTests
     {
-        private RepositoryFactory m_Factory;
-
-        private TestHandler m_Handler;
-        private SubscriberStore m_Sut;
-
         public SubscriberStoreTests()
         {
             m_Handler = new TestHandler();
-            m_Factory = new RepositoryFactory();
 
-            m_Sut = new SubscriberStore(m_Factory.Create);
+            m_MockSyncRepository = new Mock <ISubscriberRepository>();
+            m_MockAsyncRepository = new Mock <ISubscriberRepository>();
+
+            m_Sut = new SubscriberStore(m_MockSyncRepository.Object,
+                                        m_MockAsyncRepository.Object);
         }
+
+        private readonly TestHandler m_Handler;
+
+        private readonly Mock <ISubscriberRepository> m_MockAsyncRepository;
+        private readonly Mock <ISubscriberRepository> m_MockSyncRepository;
+        private readonly SubscriberStore m_Sut;
 
         [Fact]
         public void Subscribe_Calls_Subscribe_WhenCalled()
@@ -31,8 +35,8 @@ namespace Imbus.Core.XUnit.Tests
                                           m_Handler.Handle);
 
             // Assert
-            m_Factory.MockSync.Verify(m => m.Subscribe <TestMessage>("SubscriptionId",
-                                                                     m_Handler.Handle));
+            m_MockSyncRepository.Verify(m => m.Subscribe <TestMessage>("SubscriptionId",
+                                                                       m_Handler.Handle));
         }
 
         [Fact]
@@ -44,8 +48,8 @@ namespace Imbus.Core.XUnit.Tests
                                                m_Handler.Handle);
 
             // Assert
-            m_Factory.MockASync.Verify(m => m.Subscribe <TestMessage>("SubscriptionId",
-                                                                      m_Handler.Handle));
+            m_MockAsyncRepository.Verify(m => m.Subscribe <TestMessage>("SubscriptionId",
+                                                                        m_Handler.Handle));
         }
 
         [Fact]
@@ -56,7 +60,7 @@ namespace Imbus.Core.XUnit.Tests
             m_Sut.Subscribers <TestMessage>();
 
             // Assert
-            m_Factory.MockSync.Verify(m => m.Subscribers <TestMessage>());
+            m_MockSyncRepository.Verify(m => m.Subscribers <TestMessage>());
         }
 
         [Fact]
@@ -67,7 +71,7 @@ namespace Imbus.Core.XUnit.Tests
             m_Sut.SubscribersAsync <TestMessage>();
 
             // Assert
-            m_Factory.MockASync.Verify(m => m.Subscribers <TestMessage>());
+            m_MockAsyncRepository.Verify(m => m.Subscribers <TestMessage>());
         }
 
         [Fact]
@@ -78,7 +82,7 @@ namespace Imbus.Core.XUnit.Tests
             m_Sut.Unsubscribe <TestMessage>("SubscriptionId");
 
             // Assert
-            m_Factory.MockSync.Verify(m => m.Unsubscribe <TestMessage>("SubscriptionId"));
+            m_MockSyncRepository.Verify(m => m.Unsubscribe <TestMessage>("SubscriptionId"));
         }
 
         [Fact]
@@ -89,7 +93,7 @@ namespace Imbus.Core.XUnit.Tests
             m_Sut.UnsubscribeAsync <TestMessage>("SubscriptionId");
 
             // Assert
-            m_Factory.MockASync.Verify(m => m.Unsubscribe <TestMessage>("SubscriptionId"));
+            m_MockAsyncRepository.Verify(m => m.Unsubscribe <TestMessage>("SubscriptionId"));
         }
 
         public class TestHandler
@@ -101,23 +105,6 @@ namespace Imbus.Core.XUnit.Tests
 
         public class TestMessage
         {
-        }
-
-        private class RepositoryFactory
-        {
-            public readonly Mock <ISubscriberRepository> MockASync = new Mock <ISubscriberRepository>();
-            public readonly Mock <ISubscriberRepository> MockSync = new Mock <ISubscriberRepository>();
-
-            private int counter;
-
-            public ISubscriberRepository Create()
-            {
-                counter++;
-
-                return counter == 1
-                           ? MockSync.Object
-                           : MockASync.Object;
-            }
         }
     }
 }

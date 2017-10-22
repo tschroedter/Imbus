@@ -1,14 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Imbus.Core.Interfaces;
 using JetBrains.Annotations;
+
+[assembly : InternalsVisibleTo("Imbus.Core.XUnit.Tests")]
+
+// ReSharper disable UnusedMember.Global
 
 namespace Imbus.Core
 {
     [UsedImplicitly]
-    public class SubscriberRepository
-        : ISubscriberRepository
+    public class SubscriberRepository : ISubscriberRepository
     {
         private readonly Dictionary <Type, Dictionary <string, object>> m_Subscribers =
             new Dictionary <Type, Dictionary <string, object>>();
@@ -58,7 +62,7 @@ namespace Imbus.Core
             }
         }
 
-        public IEnumerable <ISubscriberInfo <TMessage>> Subscribers <TMessage>()
+        public IEnumerable <SubscriberInfo <TMessage>> Subscribers <TMessage>()
         {
             if ( !m_Subscribers.ContainsKey(typeof( TMessage )) )
             {
@@ -73,9 +77,7 @@ namespace Imbus.Core
             return subscribers;
         }
 
-        // todo should be internal
-        [UsedImplicitly]
-        public IEnumerable <string> GetSubscriptionIdsForMessage <TMessage>()
+        internal IEnumerable <string> GetSubscriptionIdsForMessage <TMessage>()
         {
             if ( !m_Subscribers.ContainsKey(typeof( TMessage )) )
             {

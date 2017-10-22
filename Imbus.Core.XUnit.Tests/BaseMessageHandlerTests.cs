@@ -1,5 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
+using Imbus.Core.Interfaces;
 using JetBrains.Annotations;
+using Moq;
 using Xunit;
 
 namespace Imbus.Core.XUnit.Tests
@@ -9,9 +11,13 @@ namespace Imbus.Core.XUnit.Tests
     {
         public BaseMessageHandlerTests()
         {
-            m_Sut = new TestMessageHandler("Id");
+            m_MockBus = new Mock <IMessageBus>();
+
+            m_Sut = new TestMessageHandler(m_MockBus.Object,
+                                           "Id");
         }
 
+        private readonly Mock <IMessageBus> m_MockBus;
         private readonly TestMessageHandler m_Sut;
 
         [Fact]
@@ -42,8 +48,11 @@ namespace Imbus.Core.XUnit.Tests
         private class TestMessageHandler
             : BaseMessageHandler <TestMessage>
         {
-            public TestMessageHandler([NotNull] string subscriperId)
-                : base(subscriperId)
+            public TestMessageHandler(
+                [NotNull] IMessageBus bus,
+                [NotNull] string subscriperId)
+                : base(bus,
+                       subscriperId)
             {
             }
 
